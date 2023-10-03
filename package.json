@@ -20,6 +20,7 @@
     "axios": "^0.21.1",
     "qrcode": "^1.4.4",
     "socket.io": "2.3.0",
+     "puppeteer": "^21.3.6",
     "util": "^0.12.4",
     "whatsapp-web.js": "https://github.com/Julzk/whatsapp-web.js/tarball/jkr_hotfix_7"
   }
