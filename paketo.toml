@@ -1,32 +1,23 @@
 [[build.env]]
-name = "BP_NODE_VERSION"
-value = "14"  # Ou a versão que você está usando
+name = "NODE_ENV"
+value = "production"
 
 [[build.env]]
-name = "BP_NPM_BUILD_ARGUMENTS"
-value = "--unsafe-perm"  # Pode ser necessário para instalar dependências globais
-
-[[build.buildpacks]]
-id = "paketo-buildpacks/node-engine"
-version = "0.2.1"
-
-[[build.buildpacks]]
-id = "paketo-buildpacks/npm"
-version = "0.2.0"
-
-[[build.buildpacks]]
-id = "paketo-buildpacks/yarn"
-version = "0.2.1"
-
-[[build.buildpacks]]
-id = "paketo-buildpacks/node-run"
-version = "0.3.0"
-
-# Adicionar configuração para o Chromium (se necessário)
-[[build.buildpacks]]
-id = "paketo-buildpacks/node-engine"
-version = "0.2.1"
+name = "BP_NODE_VERSION"
+value = "14"
 
 [[build.buildpacks]]
 id = "paketo-buildpacks/node"
 version = "0.2.1"
+
+[build.build]
+env = ["PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true"]
+
+# Adicione configuração para especificar a versão do Chromium (se necessário)
+[[build.buildpacks]]
+id = "paketo-buildpacks/node"
+version = "0.2.1"
+name = "chromium"
+version = "89.0.4389.114"
+uri = "https://buildpacks.cloudfoundry.org/dependencies/chromium/chromium-v89.tgz"
+sha256 = "ad93ebf4cf5011a6227f3f6f4fd4a33e991e6636166f238d2f6223e32204ac1d"
