@@ -1,10 +1,22 @@
 FROM ubuntu:20.04
 
-# Set the working directory
-WORKDIR /app
+# Atualize os pacotes
+RUN apt-get update
 
+# Instale as dependências iniciais
+RUN apt-get install -y \
+    unzip \
+    wget \
+    libnss3 \
+    curl \
+&& rm -rf /var/lib/apt/lists/* \
+&& echo "progress = dot:giga" | tee /etc/wgetrc \
+&& mkdir -p /mnt /opt /data \
+&& wget https://github.com/andmarios/duphard/releases/download/v1.0/duphard -O /bin/duphard \
+&& chmod +x /bin/duphard
+
+# Instale o Node.js
 ENV NODE_VERSION=14.17.3
-RUN apt install -y curl
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 ENV NVM_DIR=/root/.nvm
 RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
@@ -14,7 +26,7 @@ ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 RUN node --version
 RUN npm --version
 
-# Install dependencies for Puppeteer
+# Instale as dependências do Puppeteer
 RUN apt-get update \
     && apt-get install -y \
         gconf-service \
@@ -57,12 +69,18 @@ RUN apt-get update \
         wget \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the application files
-COPY . .
-COPY package*.json ./
+# Defina o diretório de trabalho
+WORKDIR /app
 
+# Copie os arquivos de aplicação
+COPY . .
+
+# Instale as dependências da aplicação
+COPY package*.json ./
 RUN npm install --quiet --no-optional --no-fund --loglevel=error
+
+# Exponha a porta
 EXPOSE 8000
 
-# Start the application
+# Inicie a aplicação
 CMD ["npm", "run", "start"]
