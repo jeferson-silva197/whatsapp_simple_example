@@ -4,7 +4,7 @@ FROM ubuntu:20.04
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
-    nodejs=14.x \
+    nodejs=14.17.3 \
     libnss3-dev
 
 # Copy the application files
